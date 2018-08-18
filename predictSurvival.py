@@ -7,12 +7,14 @@ from sklearn import ensemble
 #convert our dataframe from pandas to numpy  and specify input and output
 df = pre.createDataFrame("train.csv")
 testdf = pre.createDataFrame("test.csv")
+#df.info()
+
 #testdf.info()
 #print(df.head)
 X = df.values
 y = df['Survived'].values
 # remove output field from input data
-X = np.delete(X,1,axis = 1)
+X = np.delete(X,0,axis = 1)
 X_results = testdf.values
 #splitting dataset into training and testing
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X,y,test_size=0.3,random_state=0)
@@ -41,7 +43,7 @@ print("Gradient boosting score: " + str(gbscore))
 #predict on test data
 gradientBoosting.fit(X,y)
 y_results = gradientBoosting.predict(X_results)
-output = np.column_stack((X_results[:,0],y_results))
+PassengerId = np.array(list(range(892,1310)))
+output = np.column_stack((PassengerId,y_results))
 df_results = pd.DataFrame(output.astype('int'),columns = ['PassengerId','Survived'])
 df_results.to_csv('titanic_results.csv',index = False)
-
